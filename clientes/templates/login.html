@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'clientes/css/login.css' %}">
+    <title>SISMED WEB - LOGIN</title>
+</head>
+<body>
+    <section class="area_login">
+        <div class="login">
+            <div>
+                <img src="{% static 'clientes/img/logov2.png' %}">
+            </div>
+            <form action="{% url 'login' %}" method="post">  <!-- Use 'post' para enviar dados de forma segura -->
+                {% csrf_token %}  <!-- Inclua o token CSRF para segurança -->
+                <input type="text" name="username" placeholder="Nome De Usuário" autofocus>
+                <input type="password" name="senha" placeholder="Digite a Senha">
+                <input type="submit" value="Entrar">
+            </form>
+            <!-- Use {% url 'cadastro' %} para criar o link para a página de cadastro -->
+            <p>Perdeu seu acesso? <a href="{% url 'cadastro' %}">Criar conta</a></p>  
+        </div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,17 @@
+#Execute os seguintes comando para rodar o sistema:
+
+#As dependências são:
+pip install - Execute este comando junto à cada dependência abaixo:
+asgiref==3.5.2
+Django==4.1.1
+sqlparse==0.4.2
+Django
+django-allauth
+
+#Aqui são os comando para executar, configurar e ativar o ambiente virtual.
+python -m venv ambiente_virtual
+Set-ExecutionPolicy
+ambiente_virtual\scripts\activate
+
+#Aqui o comando para ativar o servidor.
+python manage.py runserver

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/templates/static/clientes/css/pagina_inicial.css">
+    <title>SP-CLINIC ACESSE</title>
+
+
+    {% load static %}
+
+    {% block 'head' %}
+    <link rel="stylesheet" href="{% static 'clientes/css/pagina_inicial.css' %}">
+    {% endblock %}
+
+
+</head>
+<body>
+    <div class="container">
+        <div class="signin-signup">
+            <form action="{% url 'login' %}" method= "POST" class="sign-in-form">{% csrf_token %}
+                <h2 class="title">ACESSE</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="username" name="username">
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Senha" name=""password>
+                </div>
+                <input type="submit" value="Login" class="btn">
+                <p class="account-text">Don't have an account? <a href="#" id="sign-up-btn2">CADASTRE-SE</a></p>
+            </form>
+            <form action="{% url 'cadastro' %}" method= "POST" class="sign-up-form">{% csrf_token %}
+                <h2 class="title">CADASTRE-SE</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Nome Completo" name="username">
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="Email" name="email">
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Senha" name="senha">
+                </div>
+               
+
+                <input type="submit" value="Cadastrar" class="btn">
+               
+            <p class="account-text">Already have an account? <a href="#" id="sign-in-btn2">Sign in</a></p>
+            </form>
+        </div>
+        <div class="panels-container">
+            <div class="panel left-panel">
+                <div class="content">
+                    <h3>Já possui seu acesso?</h3>
+                    <p>Utilize suas credenciais cadastradas para realizar seu acesso.</p>
+                    <button class="btn" id="sign-in-btn">Login</button>
+                </div>
+                <img src="signin.svg" alt="" class="image">
+            </div>
+            <div class="panel right-panel">
+                <div class="content">
+                    <h3>Não possui acesso?</h3>
+                    <p>Utilize suas credenciais para realizar seu cadastro!</p>
+                    <button class="btn" id="sign-up-btn">CADASTRE-SE</button>
+                </div>
+                <img src="signup.svg" alt="" class="image">
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'clientes/js/pagina_inicial.js' %}"></script>
+</body>
+</html>

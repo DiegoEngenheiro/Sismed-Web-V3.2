@@ -1,0 +1,71 @@
+.card-dashboard{
+
+    background-color: var(--main-color);
+    width: 50%;
+    margin-left: 10px;
+    margin-top: 40px;
+    text-align: center;
+    padding: 20px;
+    cursor: pointer;
+
+}
+
+.text-card{
+
+    font-size: 25px;
+
+}
+
+.btn-add-carros{
+
+    background-color: var(--contrast-color);
+    padding: 5px;
+    font-weight: bold;
+    cursor: pointer;
+
+}
+
+.btn-principal{
+    color:white;
+    border: groove ;
+    background-color: rgb(25, 131, 52);
+    padding: 5px;
+    font-size: 30px;
+  
+}
+
+#att_cliente{
+
+    display: none;
+}
+
+#form-att-cliente{
+    display: none;
+
+}
+
+.alert {
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    position: relative;
+    transition: opacity 0.5s ease-out;
+}
+
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.alert.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}

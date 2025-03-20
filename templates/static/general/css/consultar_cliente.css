@@ -1,0 +1,20 @@
+/* Definir a cor do texto para branco em toda a tabela */
+.table {
+    color: white;
+}
+
+/* Opcional: Adicionar um fundo escuro para contraste */
+.table-dark {
+    background-color: #343a40;
+    color: white;
+}
+
+/* Definir a cor do texto dentro da tabela */
+.table th, .table td {
+    color: white;
+}
+
+/* Se precisar definir a cor para outras partes */
+h2, p {
+    color: white;
+}

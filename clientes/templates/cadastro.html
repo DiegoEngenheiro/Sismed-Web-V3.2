@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+{% load static %}  <!-- Certifique-se de carregar as tags do Django -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'clientes/css/cadastro.css' %}">
+    <title>SISMED WEB - CADASTRO</title>
+</head>
+<body>
+    <section class="area_login">
+        <div class="login">
+            <div>
+                <img src="{% static 'clientes/img/logov2.png' %}">
+            </div>
+            <form action="{% url 'cadastro' %}" method="post">  <!-- Use 'post' para enviar dados de forma segura -->
+                {% csrf_token %}  <!-- Inclua o token CSRF para segurança -->
+                <input type="text" name="username" placeholder="Nome De Usuário" autofocus>
+                <input type="email" name="email" placeholder="Digite seu Email">
+                <input type="password" name="senha" placeholder="Digite a Senha">
+                <input type="submit" value="Cadastrar">
+            </form>
+            <!-- Use {% url 'login' %} para criar o link para a página de login -->
+            <p>Já possui sua conta? <a href="{% url 'login' %}">Acesse</a></p>
+        </div>
+    </section>
+</body>
+</html>
