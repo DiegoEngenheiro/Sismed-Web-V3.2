@@ -64,7 +64,10 @@
                 <p>Cidade:</p>
                 <input type="text" id="cidade" class="form-control" name="cidade" value="cidade">
                 <p>Celular:</p>
-                <input type="text" class="form-control" placeholder="55_______-____" name="celular" value="{{celular}}">
+<div class="input-group">
+    <span class="input-group-text">+55</span>
+    <input type="text" class="form-control" placeholder="(DDD)9____-____" name="celular" id="celular" value="{{ celular }}" maxlength="14" oninput="formatarCelular(this)">
+</div>
                 <hr style="background-color: gray;">
                 <br>
                 <input type="submit" value="Cadastrar" class="btn-principal">
@@ -105,7 +108,7 @@
                 <p>Cidade:</p>
                 <input type="text" id="cidade" class="form-control" name="cidade">
                 <p>Celular:</p>
-                <input type="text" id="celular" class="form-control" placeholder="55_______-____" name="celular">
+                <input type="text" id="celular" class="form-control" placeholder="+55_______-____" name="celular">
                 <hr style="background-color: gray;">
                 <br>
                 <input onclick="update_cliente()" type="submit" value="Salvar" class="btn btn-success">

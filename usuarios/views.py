@@ -43,14 +43,17 @@ def login(request):
 
     if user is not None:
         login_django(request, user)  # Efetuar o login
-        messages.success(request, 'Login realizado com sucesso!')  # Mensagem de sucesso
+        messages.success(request, f'{user.username}, logado com sucesso!')  # Mensagem personalizada
         return redirect('clientes')  # Redirecionar para a página de clientes
     else:
         messages.error(request, 'Email ou senha inválidos.')  # Exibe mensagem de erro
         return render(request, 'login.html')  # Renderiza a mesma página com a mensagem de erro
 
+
 @login_required(login_url='/usuarios/login/')  # Requer login para acessar a plataforma
 def logout(request):
+    username = request.user.username  # Captura o nome do usuário antes de fazer logout
     django_logout(request)  # Realiza o logout
-    messages.success(request, 'Você foi desconectado com sucesso.')  # Exibe mensagem de sucesso
+    messages.success(request, f'{username}, você foi desconectado com sucesso.')  # Mensagem personalizada
     return redirect('login')  # Redireciona para a página de login
+

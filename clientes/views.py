@@ -100,6 +100,9 @@ def clientes(request):
                 'celular': celular
             })
 
+        # Formatar o número de celular
+        celular_formatado = f'+55{celular}'  # Adiciona o prefixo +55
+
         # Criar um novo cliente
         cliente = Cliente(
             nome=nome,
@@ -110,7 +113,7 @@ def clientes(request):
             endereco=endereco,
             bairro=bairro,
             cidade=cidade,
-            celular=celular
+            celular=celular_formatado  # Usa o número formatado
         )
 
         # Salvar o cliente no banco de dados
