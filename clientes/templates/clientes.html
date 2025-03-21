@@ -3,10 +3,25 @@
 
 {% block 'head' %}
     <link rel="stylesheet" href="{% static 'clientes/css/clientes.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>  <!-- Adicione o SweetAlert2 -->
 {% endblock %}
 
 {% block 'dashboard' %}
     <div class="container">
+        <!-- Exibe as mensagens do Django -->
+        {% if messages %}
+            <script>
+                {% for message in messages %}
+                    Swal.fire({
+                        icon: '{{ message.tags }}',  // success, error, etc.
+                        title: '{{ message }}',
+                        showConfirmButton: false,
+                        timer: 3000  // Fecha automaticamente após 3 segundos
+                    });
+                {% endfor %}
+            </script>
+        {% endif %}
+
         <div class="row">
             <div onclick="exibir_form('1')" class="col-md card-dashboard">
                 <p class="text-card">Adicionar clientes</p>
@@ -15,119 +30,87 @@
             <div onclick="exibir_form('2')" class="col-md card-dashboard">
                 <p class="text-card">Atualizar clientes</p>
             </div> 
-
         </div>
 
-            <div id="adicionar-cliente" class="adicionar-cliente">
-                <form action="{% url 'clientes' %}" method="POST">{% csrf_token %}
-                    <div class="row">
-                        <div class="col-md">
-                            <p>Nome:</p>
-                            <input type="text" class="form-control" placeholder="Primeiro nome" name="nome" value="{{nome}}">
-                        </div>
-                        <div class="col-md">
-                            <p>Sobrenome:</p>
-                            <input type="text" class="form-control" placeholder="Sobrenome" name="sobrenome" value="{{sobrenome}}">
-                        </div>
+        <div id="adicionar-cliente" class="adicionar-cliente">
+            <form action="{% url 'clientes' %}" method="POST">{% csrf_token %}
+                <div class="row">
+                    <div class="col-md">
+                        <p>Nome:</p>
+                        <input type="text" class="form-control" placeholder="Primeiro nome" name="nome" value="{{nome}}">
                     </div>
-                    <br>
-                    <p>E-mail:</p>
-                    <input type="email" class="form-control" placeholder="nome@email.com" name="email" value="{{email}}">
-                    <br>
-                    <p>CPF:</p>
-                    <input type="text" class="form-control" placeholder="___.___.___-__" name="cpf" value="{{cpf}}">
-                    <br>
-                    <p>CEP:</p>
-                    <input type="text" id="cep" class="form-control" placeholder="_____-___" name="cep" value ="{{cep}}" required>
-                    <div id="cep-error" class="error-message" style="color: red; display: none;">CEP inválido. Verifique e tente novamente.</div>
-                    <br>
-                    <p>Endereço:</p>
-                    <input type="text" id="endereco" class="form-control" name="endereco" value="{{endereco}}">
-                    <br>
-                    <p>Bairro:</p>
-                    <input type="text" id="bairro" class="form-control" name="bairro" value="{{bairro}}">
-                    <br>
-                    <p>Cidade:</p>
-                    <input type="text" id="cidade" class="form-control" name="cidade" value="cidade">
-                    <p>Celular:</p>
-                    <input type="text" class="form-control" placeholder="55_______-____" name="celular" value="{{celular}}">
-                    <hr style="background-color: gray;">
-                    <br>
-                    <input type="submit" value="Cadastrar" class="btn-principal">
-
-                </form>
-            </div>
-
-            <script>
-                // Função para buscar o endereço com base no CEP usando a API ViaCEP
-            
-                    document.getElementById('cep').addEventListener('blur', function() {
-                        var cep = this.value.replace(/\D/g, '');
-                        var errorElement = document.getElementById('cep-error');
-                        if (cep.length === 8) {
-                            fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (!data.erro) {
-                                        document.getElementById('endereco').value = data.logradouro;
-                                        document.getElementById('bairro').value = data.bairro;
-                                        document.getElementById('cidade').value = data.localidade;
-                                        errorElement.style.display = 'none'; // Oculta a mensagem de erro se o CEP for válido
-                                    } else {
-                                        errorElement.style.display = 'block'; // Exibe a mensagem de erro se o CEP não for encontrado
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Erro ao buscar o CEP:', error);
-                                    errorElement.style.display = 'block'; // Exibe a mensagem de erro em caso de falha na requisição
-                                });
-                        } else {
-                            errorElement.style.display = 'block'; // Exibe a mensagem de erro se o CEP não tiver 8 dígitos
-                        }
-                    });
-                </script>
-
-            <div id="att_cliente">
-                <p></p>
-                <select id="cliente-select"  onchange="dados_cliente()" class="form-control">
-                    {% for cliente in clientes %}
-                    <option value="{{cliente.id}}">{{cliente.nome}}</option>
-                    {% endfor %}
-                </select>
+                    <div class="col-md">
+                        <p>Sobrenome:</p>
+                        <input type="text" class="form-control" placeholder="Sobrenome" name="sobrenome" value="{{sobrenome}}">
+                    </div>
+                </div>
                 <br>
-                <hr>
+                <p>E-mail:</p>
+                <input type="email" class="form-control" placeholder="nome@email.com" name="email" value="{{email}}">
+                <br>
+                <p>CPF:</p>
+                <input type="text" class="form-control" placeholder="___.___.___-__" name="cpf" value="{{cpf}}">
+                <br>
+                <p>CEP:</p>
+                <input type="text" id="cep" class="form-control" placeholder="_____-___" name="cep" value ="{{cep}}" required>
+                <div id="cep-error" class="error-message" style="color: red; display: none;">CEP inválido. Verifique e tente novamente.</div>
+                <br>
+                <p>Endereço:</p>
+                <input type="text" id="endereco" class="form-control" name="endereco" value="{{endereco}}">
+                <br>
+                <p>Bairro:</p>
+                <input type="text" id="bairro" class="form-control" name="bairro" value="{{bairro}}">
+                <br>
+                <p>Cidade:</p>
+                <input type="text" id="cidade" class="form-control" name="cidade" value="cidade">
+                <p>Celular:</p>
+                <input type="text" class="form-control" placeholder="55_______-____" name="celular" value="{{celular}}">
+                <hr style="background-color: gray;">
+                <br>
+                <input type="submit" value="Cadastrar" class="btn-principal">
+            </form>
+        </div>
 
-                <div id="form-att-cliente">
-                    <input type="hidden" id="id">
-                    <p>Nome:</p>
-                    <input id="nome" type="text" class='form-control'>
-                    <p>Sobrenome:</p>
-                    <input id="sobrenome" type="text" class='form-control'>
-                    <p>E-mail:</p>
-                    <input id="email" type="text" class='form-control'>
-                    <p>CPF:</p>
-                    <input id="cpf" type="text" class='form-control'>
-                    <br>
-                    <p>CEP:</p>
-                    <input type="text" id="cep" class="form-control" placeholder="_____-___" name="cep" required>
-                    <div id="cep-error" class="error-message" style="color: red; display: none;">CEP inválido. Verifique e tente novamente.</div>
-                    <br>
-                    <p>Endereço:</p>
-                    <input type="text" id="endereco" class="form-control" name="endereco">
-                    <br>
-                    <p>Bairro:</p>
-                    <input type="text" id="bairro" class="form-control" name="bairro">
-                    <br>
-                    <p>Cidade:</p>
-                    <input type="text" id="cidade" class="form-control" name="cidade">
-                    <p>Celular:</p>
-                    <input type="text" id="celular" class="form-control" placeholder="55_______-____" name="celular">
-                    <hr style="background-color: gray;">
-                    <br>
-                    <input onclick="update_cliente()" type="submit" value="Salvar" class="btn btn-success">
-                </div>
-                </div>
+        <div id="att_cliente">
+            <p></p>
+            <select id="cliente-select"  onchange="dados_cliente()" class="form-control">
+                {% for cliente in clientes %}
+                <option value="{{cliente.id}}">{{cliente.nome}}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <hr>
+
+            <div id="form-att-cliente">
+                <input type="hidden" id="id">
+                <p>Nome:</p>
+                <input id="nome" type="text" class='form-control'>
+                <p>Sobrenome:</p>
+                <input id="sobrenome" type="text" class='form-control'>
+                <p>E-mail:</p>
+                <input id="email" type="text" class='form-control'>
+                <p>CPF:</p>
+                <input id="cpf" type="text" class='form-control'>
+                <br>
+                <p>CEP:</p>
+                <input type="text" id="cep" class="form-control" placeholder="_____-___" name="cep" required>
+                <div id="cep-error" class="error-message" style="color: red; display: none;">CEP inválido. Verifique e tente novamente.</div>
+                <br>
+                <p>Endereço:</p>
+                <input type="text" id="endereco" class="form-control" name="endereco">
+                <br>
+                <p>Bairro:</p>
+                <input type="text" id="bairro" class="form-control" name="bairro">
+                <br>
+                <p>Cidade:</p>
+                <input type="text" id="cidade" class="form-control" name="cidade">
+                <p>Celular:</p>
+                <input type="text" id="celular" class="form-control" placeholder="55_______-____" name="celular">
+                <hr style="background-color: gray;">
+                <br>
+                <input onclick="update_cliente()" type="submit" value="Salvar" class="btn btn-success">
             </div>
+        </div>
     </div>
 
     <script>
@@ -166,49 +149,48 @@
         }
     </script>
 
-<script>
-    // Função para atualizar os dados do cliente
-    function update_cliente() {
-        var clienteId = document.getElementById('id').value;
+    <script>
+        // Função para atualizar os dados do cliente
+        function update_cliente() {
+            var clienteId = document.getElementById('id').value;
 
-        // Coleta os dados do formulário
-        var formData = new FormData();
-        formData.append('nome', document.getElementById('nome').value);
-        formData.append('sobrenome', document.getElementById('sobrenome').value);
-        formData.append('email', document.getElementById('email').value);
-        formData.append('cpf', document.getElementById('cpf').value);
-        formData.append('cep', document.getElementById('cep').value);
-        formData.append('endereco', document.getElementById('endereco').value);
-        formData.append('bairro', document.getElementById('bairro').value);
-        formData.append('cidade', document.getElementById('cidade').value);
-        formData.append('celular', document.getElementById('celular').value);
+            // Coleta os dados do formulário
+            var formData = new FormData();
+            formData.append('nome', document.getElementById('nome').value);
+            formData.append('sobrenome', document.getElementById('sobrenome').value);
+            formData.append('email', document.getElementById('email').value);
+            formData.append('cpf', document.getElementById('cpf').value);
+            formData.append('cep', document.getElementById('cep').value);
+            formData.append('endereco', document.getElementById('endereco').value);
+            formData.append('bairro', document.getElementById('bairro').value);
+            formData.append('cidade', document.getElementById('cidade').value);
+            formData.append('celular', document.getElementById('celular').value);
 
-        // Faz a requisição AJAX para atualizar os dados do cliente
-        fetch(`/update_cliente/${clienteId}/`, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}'  // Adiciona o token CSRF
-            },
-            body: JSON.stringify(Object.fromEntries(formData))
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === '200') {
-                alert('Cliente atualizado com sucesso!');
-                location.reload();  // Recarrega a página para exibir os dados atualizados
-            } else {
-                alert('Erro ao atualizar cliente: ' + data.error);
-            }
-        })
-        .catch(error => console.error('Erro ao atualizar cliente:', error));
-    }
-</script>
+            // Faz a requisição AJAX para atualizar os dados do cliente
+            fetch(`/update_cliente/${clienteId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'  // Adiciona o token CSRF
+                },
+                body: JSON.stringify(Object.fromEntries(formData))
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === '200') {
+                    alert('Cliente atualizado com sucesso!');
+                    location.reload();  // Recarrega a página para exibir os dados atualizados
+                } else {
+                    alert('Erro ao atualizar cliente: ' + data.error);
+                }
+            })
+            .catch(error => console.error('Erro ao atualizar cliente:', error));
+        }
+    </script>
 
     <script src="{% static 'clientes/js/clientes.js' %}"></script>
 
     <script>
-    // Função para buscar o endereço com base no CEP usando a API ViaCEP
-
+        // Função para buscar o endereço com base no CEP usando a API ViaCEP
         document.getElementById('cep').addEventListener('blur', function() {
             var cep = this.value.replace(/\D/g, '');
             var errorElement = document.getElementById('cep-error');
@@ -234,5 +216,4 @@
             }
         });
     </script>
-
-{% endblock%}
+{% endblock %}
